@@ -16,7 +16,7 @@ class PhotoAdapter(private val photoClickListener: PhotoClickListener) : ListAda
 
     @Override
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), photoClickListener)
     }
 }
 

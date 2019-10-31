@@ -13,8 +13,12 @@ class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private var photoTitle: TextView = itemView.findViewById(R.id.photo_grid_title)
     private var photoThumbnail: ImageView = itemView.findViewById(R.id.photo_thumbnail)
 
-    fun bind(photo: Photo) {
+    fun bind(photo: Photo, clickListener: PhotoClickListener) {
         photoTitle.text = photo.title
+
+        itemView.setOnClickListener {
+            clickListener.onClick(photo)
+        }
 
         Picasso.get()
             .load(photo.thumbnailUrl)

@@ -27,7 +27,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private fun setImageUrls(photosResource: Resource<List<Photo>>) : Resource<List<Photo>> {
         photosResource.data?.forEach { photo ->
             photo.thumbnailUrl = String.format("https://farm%d.staticflickr.com/%s/%s_%s_m.jpg", photo.farm, photo.server, photo.id, photo.secret)
-            photo.fullUrl = String.format("https://farm%d.staticflickr.com/%s/%s_%s_o.jpg", photo.farm, photo.server, photo.id, photo.secret)
+            photo.fullUrl = String.format("https://farm%d.staticflickr.com/%s/%s_%s_b.jpg", photo.farm, photo.server, photo.id, photo.secret)
         }
 
         return photosResource
