@@ -2,18 +2,40 @@ package com.example.flickrfindr.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.flickrfindr.model.Photo
+import com.example.flickrfindr.model.Resource
+import com.example.flickrfindr.model.SearchPhotoResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class PhotosRepository {
-    fun getPhotos(): LiveData<List<Photo>> {
-        var liveData = MediatorLiveData<List<Photo>>()
-        var list = mutableListOf<Photo>()
-        list.add(Photo("", "Photo 1"))
-        list.add(Photo("", "Photo 2"))
-        list.add(Photo("", "Photo 3"))
-        list.add(Photo("", "Photo 4"))
-        list.add(Photo("", "Photo 5"))
-        liveData.value = list
+class PhotosRepository(private val photosService: PhotosService) {
+
+    fun getPhotos(query: String): LiveData<Resource<List<Photo>>> {
+        var liveData = MutableLiveData<Resource<List<Photo>>>()
+
+        liveData.value = Resource.Loading()
+
+        photosService.searchPhotos(query).enqueue(object : Callback<SearchPhotoResponse> {
+            override fun onFailure(call: Call<SearchPhotoResponse>, t: Throwable) {
+                liveData.value = Resource.Error(t.localizedMessage ?: "Error")
+            }
+
+            override fun onResponse(call: Call<SearchPhotoResponse>, response: Response<SearchPhotoResponse>) {
+                if (response.isSuccessful) {
+                    var data = response.body()
+
+                    if (data?.stat.equals("ok"))
+                        liveData.value = Resource.Success(data?.photos?.photo ?: ArrayList<Photo>())
+                    else
+                        liveData.value = Resource.Error(data?.message ?: "Error")
+                }
+                else
+                    liveData.value = Resource.Error("Error")
+            }
+
+        })
 
         return liveData
     }
