@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.flickrfindr.FlickrFinderApplication
 import com.example.flickrfindr.R
 import com.example.flickrfindr.model.Photo
 import com.example.flickrfindr.model.Resource
@@ -22,9 +25,17 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private val viewModel by viewModels<MainViewModel>()
     private lateinit var layoutManager: StaggeredGridLayoutManager
     private lateinit var photoAdapter: PhotoAdapter
+    private val viewModel by viewModels<MainViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                val app = this@MainFragment.activity!!.application as FlickrFinderApplication
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(app.photosRepository) as T
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

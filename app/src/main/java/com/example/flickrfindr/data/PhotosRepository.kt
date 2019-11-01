@@ -10,7 +10,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PhotosRepository(private val photosService: PhotosService) {
-
     fun getPhotos(query: String): LiveData<Resource<List<Photo>>> {
         val liveData = MutableLiveData<Resource<List<Photo>>>()
 
