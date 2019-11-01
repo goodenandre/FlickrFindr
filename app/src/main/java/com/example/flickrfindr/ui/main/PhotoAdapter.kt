@@ -10,7 +10,7 @@ import com.example.flickrfindr.model.Photo
 class PhotoAdapter(private val photoClickListener: PhotoClickListener) : ListAdapter<Photo, PhotoViewHolder>(PhotoDiffCallback()) {
     @Override
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.photo_grid_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.photo_grid_item, parent, false)
         return PhotoViewHolder(view)
     }
 

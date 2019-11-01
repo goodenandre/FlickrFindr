@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="network_error_vertical_padding">24dp</dimen>
+    <dimen name="network_error_horizontal_padding">16dp</dimen>
+    <dimen name="network_error_margin">20dp</dimen>
+    <dimen name="network_error_text_size">18sp</dimen>
+    <dimen name="network_error_retry_text_size">12sp</dimen>
+    <dimen name="no_results_vertical_padding">24dp</dimen>
+    <dimen name="no_results_horizontal_padding">16dp</dimen>
+    <dimen name="no_results_margin">20dp</dimen>
+    <dimen name="no_result_header_text_size">18sp</dimen>
+    <dimen name="no_result_subheader_text_size">11sp</dimen>
+    <dimen name="photo_grid_item_min_height">60dp</dimen>
+    <dimen name="photo_grid_item_margin">4dp</dimen>
+    <dimen name="photo_grid_item_elevation">2dp</dimen>
+    <dimen name="photo_grid_item_title_padding">6dp</dimen>
+    <dimen name="main_fragment_padding">3dp</dimen>
+    <dimen name="main_fragment_grid_margin_top">3dp</dimen>
+</resources>

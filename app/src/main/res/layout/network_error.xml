@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
-<!--<LinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    android:id="@+id/network_error"
     android:paddingLeft="@dimen/network_error_horizontal_padding"
     android:paddingRight="@dimen/network_error_horizontal_padding"
     android:paddingTop="@dimen/network_error_vertical_padding"
@@ -17,7 +13,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/thunderstorm"/>
+        android:src="@drawable/storm"/>
 
     <TextView
         android:layout_marginTop="@dimen/network_error_margin"
@@ -25,13 +21,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/network_error_text_size"
         android:text="@string/network_error_text" />
 
-    <Button
-        android:id="@+id/network_error_retry_button"
+    <TextView
+        android:id="@+id/textview_error_retry"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.Button"
-        android:text="@string/network_error_button_text"/>
+        android:textColor="@color/colorPrimary"
+        android:textAllCaps="true"
+        android:textSize="@dimen/network_error_retry_text_size"
+        android:text="@string/network_error_retry_text" />
 
-</LinearLayout>-->
+</LinearLayout>

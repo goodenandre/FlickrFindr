@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FlickrFindr</string>
     <string name="search_hint">Search Photos</string>
-    <string name="network_error_button_text">Retry</string>
+    <string name="network_error_retry_text">Tap here to Retry</string>
     <string name="network_error_text">We\'re sorry! We couldn\'t complete your search!</string>
+    <string name="no_results_heading">Sorry we couldn\'t find any photos matching your search</string>
+    <string name="no_results_subheading">Maybe your results were too specific, please try searching again</string>
 </resources>

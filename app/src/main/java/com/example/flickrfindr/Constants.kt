@@ -1,3 +1,5 @@
+@file:JvmName("Constants")
+
 package com.example.flickrfindr
 
 const val FLICKR_FORMAT_QUERY_KEY = "format"

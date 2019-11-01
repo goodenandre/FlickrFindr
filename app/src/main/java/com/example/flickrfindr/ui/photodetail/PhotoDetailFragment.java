@@ -1,20 +1,16 @@
 package com.example.flickrfindr.ui.photodetail;
 
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
-
-import android.media.Image;
+import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.flickrfindr.R;
 import com.squareup.picasso.Picasso;
@@ -25,8 +21,6 @@ public class PhotoDetailFragment extends DialogFragment {
     private static final String ARGS_IMAGE_URL = "ImageUrl";
 
     private ImageView mFullPhotoImageView;
-
-    private PhotoDetailViewModel mViewModel;
 
     public static PhotoDetailFragment newInstance(String imageUrl) {
         PhotoDetailFragment fragment = new PhotoDetailFragment();
@@ -50,18 +44,21 @@ public class PhotoDetailFragment extends DialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Picasso.get()
-                .load(getArguments().getString(ARGS_IMAGE_URL))
-                .noPlaceholder()
-                .into(mFullPhotoImageView);
-
-        mViewModel = ViewModelProviders.of(this).get(PhotoDetailViewModel.class);
-        // TODO: Use the ViewModel
+        if (getArguments() != null) {
+            Picasso.get()
+                    .load(getArguments().getString(ARGS_IMAGE_URL))
+                    .noPlaceholder()
+                    .into(mFullPhotoImageView);
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        Dialog dialog = getDialog();
+
+        if (dialog != null && dialog.getWindow() != null)
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 }

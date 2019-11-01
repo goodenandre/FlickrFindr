@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
@@ -13,7 +12,9 @@ import com.example.flickrfindr.R
 import com.example.flickrfindr.model.Photo
 import com.example.flickrfindr.model.Resource
 import com.example.flickrfindr.ui.photodetail.PhotoDetailFragment
+import com.example.flickrfindr.utils.hideKeyboard
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.network_error.*
 
 class MainFragment : Fragment() {
 
@@ -36,19 +37,16 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
+            override fun onQueryTextChange(newText: String?) = false
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    viewModel.search(query)
-                }
-
+                query?.let { viewModel.search(it) }
+                hideKeyboard(activity)
                 return true
             }
-
         })
+
+        textview_error_retry.setOnClickListener { viewModel.search(search_view.query.toString()) }
 
         layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
@@ -62,12 +60,6 @@ class MainFragment : Fragment() {
                     val photoDetailFragment = PhotoDetailFragment.newInstance(photo.fullUrl)
                     photoDetailFragment.show(it, PhotoDetailFragment.TAG)
                 }
-                /*activity?.supportFragmentManager?.commit(true) {
-                    val photoDetailFragment = PhotoDetailFragment.newInstance(photo.fullUrl)
-                    addToBackStack(PhotoDetailFragment.TAG)
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    replace(R.id.container, photoDetailFragment, PhotoDetailFragment.TAG)
-                }*/
             }
 
         })
@@ -76,18 +68,30 @@ class MainFragment : Fragment() {
         viewModel.getPhotos().observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
+
                     progress_bar.visibility = View.GONE
-                    recyclerview_main.visibility = View.VISIBLE
-                    photoAdapter.submitList(it.data)
+                    network_error.visibility = View.GONE
+
+                    if (it.data?.size == 0) {
+                        no_results.visibility = View.VISIBLE
+                        recyclerview_main.visibility = View.GONE
+                    } else {
+                        no_results.visibility = View.GONE
+                        recyclerview_main.visibility = View.VISIBLE
+                        photoAdapter.submitList(it.data)
+                    }
                 }
                 is Resource.Error -> {
                     progress_bar.visibility = View.GONE
                     recyclerview_main.visibility = View.GONE
-                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                    no_results.visibility = View.GONE
+                    network_error.visibility = View.VISIBLE
                 }
                 is Resource.Loading -> {
                     recyclerview_main.visibility = View.GONE
+                    no_results.visibility = View.GONE
                     progress_bar.visibility = View.VISIBLE
+                    network_error.visibility = View.GONE
                 }
             }
         })
